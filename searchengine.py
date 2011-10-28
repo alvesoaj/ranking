@@ -111,10 +111,8 @@ class crawler:
 
                   if url[0:4]=='http' and not self.isindexed(url):
                      newpages.add(url)
-
                   linkText =  self.gettextonly(link)
                   self.addlinkref(page,url,linkText)
-
             self.dbcommit()
          pages = newpages
 
@@ -178,7 +176,7 @@ class searcher:
       totalscores = dict([(row[0], 0) for row in rows])
 
       # This is where you'll later put the scoring functions
-      weights = [(1.0, self.locationscore(rows))]
+      weights = [(1.0, self.frequencyscore(rows)), (1.25,self.locationscore(rows)), (1.5, self.distancescore(rows))]
 
       for (weight, scores) in weights:
          for url in totalscores:
@@ -219,5 +217,17 @@ class searcher:
          loc = sum(row[1:])
          if loc < locations[row[0]]:
             locations[row[0]] = loc
-
       return self.normalizescores(locations, smallIsBetter=1)
+
+   def distancescore(self,rows):
+      # If there's only one word, everyone wins!
+      if len(rows[0]) <= 2:
+         return dict([(row[0], 1.0) for row in rows])
+
+      # Initialize the dictionary with large values
+      mindistance = dict([(row[0], 1000000) for row in rows])
+      for row in rows:
+         dist = sum([abs(row[i]-row[i-1]) for i in range(2, len(row))])
+         if dist < mindistance[row[0]]:
+            mindistance[row[0]] = dist
+      return self.normalizescores(mindistance, smallIsBetter=1)
