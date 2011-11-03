@@ -6,9 +6,12 @@ pysqlite - http://pypi.python.org/pypi/pysqlite/
 
 database: kiwitobes.com/db/searchindex.db
 
-
 import searchengine
 reload(searchengine)
 crawler = searchengine.crawler('searchindex.db')
 pages = ['http://kiwitobes.com/wiki/Categorical_list_of_programming_languages.html']
 crawler.crawl(pages)
+
+reload(searchengine)
+e = searchengine.searcher('searchindex.db')
+e.query('functional programming')
