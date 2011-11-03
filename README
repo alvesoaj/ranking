@@ -3,3 +3,12 @@ lib to download and install
 BeautifulSoup - http://www.crummy.com/software/BeautifulSoup/#Download
 
 pysqlite - http://pypi.python.org/pypi/pysqlite/
+
+database: kiwitobes.com/db/searchindex.db
+
+
+import searchengine
+reload(searchengine)
+crawler = searchengine.crawler('searchindex.db')
+pages = ['http://kiwitobes.com/wiki/Categorical_list_of_programming_languages.html']
+crawler.crawl(pages)
