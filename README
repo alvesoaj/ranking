@@ -7,9 +7,16 @@ pysqlite - http://pypi.python.org/pypi/pysqlite/
 database: kiwitobes.com/db/searchindex.db
 
 -- Seeding database
+import nn
+reload(nn)
+mynet = nn.searchnet('nn.db')
+mynet.maketables()
+
 import searchengine
 reload(searchengine)
 crawler = searchengine.crawler('searchindex.db')
+crawler.createindextables()
+
 pages = ['http://kiwitobes.com/wiki/Categorical_list_of_programming_languages.html']
 crawler.crawl(pages)
 
