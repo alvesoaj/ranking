@@ -205,7 +205,7 @@ class searcher:
       # This is where you'll later put the scoring functions
       weights = [
                   (1.0, self.frequencyscore(rows)),
-                  (1.0,self.locationscore(rows)),
+                  (1.0, self.locationscore(rows)),
                   (1.0, self.distancescore(rows)),
                   (1.0, self.inboundlinkscore(rows)),
                   (1.0, self.pagerankscore(rows)),
